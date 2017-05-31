@@ -29,7 +29,7 @@ class Emotiv(object):
     def __init__(self, display_output=False, serial_number=None, is_research=False, write=False,
                  write_encrypted=False, write_decrypted=False, write_values=True, input_source="emotiv",
                  sys_platform=system_platform, verbose=False, output_path=None, chunk_writes=True, chunk_size=32,
-                 force_epoc_mode=False, force_old_crypto=False):
+                 force_epoc_mode=False, force_old_crypto=False, file_name = "unknown"):
         """
         Sets up initial values.
 
@@ -51,6 +51,9 @@ class Emotiv(object):
 
         """
         print("Initializing Emokit...")
+
+        self.file_name = file_name
+
         self.new_format = False
         self.running = False
         self.chunk_writes = chunk_writes
@@ -169,7 +172,10 @@ class Emotiv(object):
 
             # Setup sensor value writer.
             if self.write_values:
-                output_path = 'emotiv_values_%s.csv' % str(datetime.now()).replace(':', '-')
+                if self.file_name:
+                    output_path = self.file_name + '.csv'
+                else:
+                    output_path = 'emotiv_values_%s.csv' % str(datetime.now()).replace(':', '-')
                 if self.output_path is not None:
                     if type(self.output_path) == str:
                         output_path = path_checker(self.output_path, output_path)

@@ -18,7 +18,7 @@ class RawDataCollector(QThread):
         self.flag = False
 
     def CollectRawData(self):
-        with Emotiv(display_output=True, verbose=True, write=True) as headset:
+        with Emotiv(display_output=True, verbose=True, write=True, file_name = "nadtest") as headset:
             print("Serial Number: %s" % headset.serial_number)
             print("Exporting data... press control+c to stop.")
 
