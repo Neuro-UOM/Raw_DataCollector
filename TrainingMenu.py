@@ -3,7 +3,7 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from TrainingMenuUI import Ui_Dialog
-from Raw_DataCollector import CollectRawData
+from Raw_DataCollector import RawDataCollector
 import threading
 import time
 import threading
@@ -25,11 +25,11 @@ class TrainingMenu(Ui_Dialog):
 		self.startBtn.clicked.connect(self.startBtnClicked)
 		self.endBtn.clicked.connect(self.endBtnClicked)
 		self.chooseDirectoryBtn.clicked.connect(self.chooseDirectoryBtnClicked)
-
+		self.rawDataCollector = RawDataCollector()
 		
 	def startBtnClicked(self):
 		print("Start Button Clicked")
-		CollectRawData()
+		self.rawDataCollector.start()
 		self.remainingSeconds = 300
 		self.trainingTimer()
 		self.changeTimer("5:00",300)
@@ -38,6 +38,7 @@ class TrainingMenu(Ui_Dialog):
 		print("End Button Clicked")
 		self.remainingSeconds = 0;
 		progressBar.setProperty("value", 0)
+		self.rawDataCollector.stop()
 
 	def chooseDirectoryBtnClicked(self):
 		print("Choose Directory Button Clicked")
