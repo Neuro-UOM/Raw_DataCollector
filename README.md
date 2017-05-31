@@ -7,3 +7,7 @@ note : still in progress
 - method to stop data retreival
 - method to add name to .csv file
 - clean code and the folder
+
+### run application by
+
+``` python TrainingMenu.py ```

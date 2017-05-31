@@ -29,6 +29,7 @@ class TrainingMenu(Ui_Dialog):
 		
 	def startBtnClicked(self):
 		print("Start Button Clicked")
+		self.rawDataCollector.setFileName(self.chooseDirectoryText.text())
 		self.rawDataCollector.start()
 		self.remainingSeconds = 300
 		self.trainingTimer()

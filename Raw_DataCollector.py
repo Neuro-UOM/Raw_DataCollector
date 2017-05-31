@@ -6,19 +6,23 @@ from PyQt5.QtCore import (QCoreApplication, QObject, QRunnable, QThread, QThread
 
 class RawDataCollector(QThread):
     flag = False
+    file_name = ""
 
     if platform.system() == "Windows":
         pass
 
+    def setFileName(self,file_name):
+        self.file_name = file_name
+
     def run(self):
         self.flag = True
-        self.CollectRawData()
+        self.CollectRawData(self.file_name)
 
     def stop(self):
         self.flag = False
 
-    def CollectRawData(self):
-        with Emotiv(display_output=True, verbose=True, write=True, file_name = "nadtest") as headset:
+    def CollectRawData(self, file_name):
+        with Emotiv(display_output=True, verbose=True, write=True, file_name = self.file_name) as headset:
             print("Serial Number: %s" % headset.serial_number)
             print("Exporting data... press control+c to stop.")
 
