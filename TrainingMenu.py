@@ -11,7 +11,7 @@ import threading
 
 class TrainingMenu(Ui_Dialog):
 
-	remainingSeconds = 60 # Training Time in seconds
+	remainingSeconds = 30 # Training Time in seconds
 
 	def __init__(self, dialog):
 
@@ -31,15 +31,17 @@ class TrainingMenu(Ui_Dialog):
 		print("Start Button Clicked")
 		self.rawDataCollector.setFileName(self.chooseDirectoryText.text())
 		self.rawDataCollector.start()
-		self.remainingSeconds = 60
+		self.remainingSeconds = 30
 		self.trainingTimer()
-		self.changeTimer("1:00",60)
+		self.changeTimer("0:30",30)
+		self.startBtn.setEnabled(False)
 
 	def endBtnClicked(self):
 		print("End Button Clicked")
 		self.remainingSeconds = 0
 		progressBar.setProperty("value", 0)
 		self.rawDataCollector.stop()
+		self.startBtn.setEnabled(True)
 
 	def chooseDirectoryBtnClicked(self):
 		print("Choose Directory Button Clicked")
@@ -55,10 +57,13 @@ class TrainingMenu(Ui_Dialog):
 			print(self.remainingSeconds)
 			timeString = ""
 			timeString +=  str( self.remainingSeconds / 60 ) + ":"
+			if ((self.remainingSeconds % 60) < 10):
+				timeString += "0"
 			timeString += str( self.remainingSeconds % 60 )
 			self.changeTimer(timeString,self.remainingSeconds)
 		else:
 			self.rawDataCollector.stop()
+			self.startBtn.setEnabled(True)
 
 if __name__ == '__main__':
 	app = QtWidgets.QApplication(sys.argv)
